@@ -13,9 +13,8 @@ extension WeatherVC: WeatherDelegate {
     
     func updateWeather(weatherViewModel: WeatherVCModel) {
         DispatchQueue.main.async {
+
             self.weatherVCModel = weatherViewModel
-            self.collectionViewDays.reloadData()
-            self.collectionView.reloadData()
         }
     }
     func toggleSpinner() {
@@ -38,58 +37,80 @@ class WeatherVC: UIViewController {
 
     @IBOutlet var lblWeatherDaysTitle: UILabel!
     
-    @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var collectionViewDays: UICollectionView!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet var lblCityName: UILabel!
     @IBOutlet var lblTemp: UILabel!    
 
     private var spinnerShowing: Bool = false
-
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    
-    
-    
     @IBOutlet weak var uiViewSpinner: UIView! {
       didSet {
           uiViewSpinner.layer.cornerRadius = 6
       }
     }
     
+    
+    
+    private var dataSourceWeather:WeatherVCDataSource<WeatherCellViewModel>?
+    private var dataSourceDailyWeather:WeatherVCDataSource<WeatherCellViewModel>?
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionViewDays: UICollectionView!
+    
+    
+    
     private(set) var weatherVCModel : WeatherVCModel! {
         didSet {
             lblCityName.text = weatherVCModel.cityName
             lblTemp.text = "\(weatherVCModel.temperature)"
             lblWeatherDescription.text = weatherVCModel.weatherDescription
-
-            
+            self.renderTableViewdataSource(self.weatherVCModel)
         }
     }
+    
+//    var loggedInUserEmailid:String?
+//        private var error: Error? {
+//            willSet(error) {
+//                DispatchQueue.main.async {
+//                    AlertManager.shareinstance.showAlert(on: self, alertmessageTitle: "Error occured", alertmessageContent: error?.localizedDescription ?? "")
+//                }
+//            }
+//        }
+    
+    func renderTableViewdataSource(_ weatherVCModel: WeatherVCModel){
+        dataSourceWeather = WeatherVCDataSource.displayDataWeatherCell(for: weatherVCModel.dailyWeatherCellViewModel, withCellidentifier: WeatherCell.identifier, collectionView: collectionView)
+        collectionView.dataSource = dataSourceWeather
+        collectionView.delegate = self
+        collectionView.reloadData()
+        
+        dataSourceDailyWeather = WeatherVCDataSource.displayDataDailyWeatherCell(for: weatherVCModel.weatherCellViewModels, withCellidentifier: DailyWeatherCell.identifier, collectionView: collectionViewDays)
+        collectionViewDays.dataSource = dataSourceDailyWeather
+        collectionViewDays.delegate = self
+        collectionViewDays.reloadData()
+        
+        
+    }
+    
+    
+    
     
     var viewModel = WeatherVCManager()
     
     private var subscriber: AnyCancellable?
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         searchTextField.delegate = self
         viewModel.delegate = self
-        
-        collectionView.register(DailyWeatherCell.nib(), forCellWithReuseIdentifier: DailyWeatherCell.identifier)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionViewDays.register(WeatherCell.nib(), forCellWithReuseIdentifier: WeatherCell.identifier)
-        collectionViewDays.delegate = self
-        collectionViewDays.dataSource = self
-        
-        stackViewWeatherCells.layer.cornerRadius = 10
-        stackViewWeatherDays.layer.cornerRadius = 10
+
         hideSpinner()
  
     }
+    
+    
+
     
 //    private func observeViewModel() {
 //            subscriber = viewModel.usersSubject.sink(receiveCompletion: { (resultCompletion) in
@@ -120,49 +141,9 @@ class WeatherVC: UIViewController {
 
 }
 
-extension WeatherVC: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if weatherVCModel?.weatherCellViewModels.count ?? 0 > 0 {
-            if collectionView == self.collectionViewDays {
-                return weatherVCModel.weatherCellViewModels.count
-                }
-            else {
-                return weatherVCModel.dailyWeatherCellViewModel.count
-                }
-            }
-        else { return 0 }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == self.collectionViewDays {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WeatherCell.identifier, for: indexPath) as! WeatherCell
-            cell.configure(with: weatherVCModel.weatherCellViewModels[indexPath.row])
 
-            
-            return cell
-        }
-        else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyWeatherCell.identifier, for: indexPath) as! DailyWeatherCell
-            cell.configure(with: weatherVCModel.dailyWeatherCellViewModel[indexPath.row])
-            
-            return cell
-            
-        }
-    }
-    
+extension WeatherVC: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
 
-    
-
-}
-
-extension WeatherVC: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionViewDays {
             return CGSize(width: 90, height: 110)

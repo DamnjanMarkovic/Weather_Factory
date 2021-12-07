@@ -21,11 +21,8 @@ struct Main: Codable {
 struct Weather: Codable {
     var main: String
     var description: String
+    
 }
-struct User: Decodable {
-    var id: Int
-    var name: String
-    var email: String
-}
+
 
 

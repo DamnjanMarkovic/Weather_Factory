@@ -63,7 +63,8 @@ class WeatherVCManager  {
         
         
         Publishers.Zip(webService.getWeather(endpoint: .weather, cityName: cityName),
-                       webService.getWeatherForecast(endpoint: .weatherForecast, cityName: cityName)).eraseToAnyPublisher()
+                       webService.getWeatherForecast(endpoint: .weatherForecast, cityName: cityName))
+            .eraseToAnyPublisher()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
@@ -74,8 +75,7 @@ class WeatherVCManager  {
                 }
                 }, receiveValue: { [weak self] weatherModelArrived, weatherForecastModelArrived in
                     
-                    self?.weatherViewModel = WeatherVCModel(weathermodel: weatherModelArrived, weatherForecastModel: weatherForecastModelArrived)
-                    
+                    self?.weatherViewModel = WeatherVCModel(weathermodel: weatherModelArrived, weatherForecastModel: weatherForecastModelArrived)                    
             })
             .store(in: &cancellables)
         
