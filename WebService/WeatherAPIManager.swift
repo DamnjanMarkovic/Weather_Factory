@@ -36,15 +36,6 @@ struct WeatherAPIManager {
         return apiManager.getData(for: urlRequest)
     }
     
-    func getCityNamesFromJsonFile(endpoint: Endpoint) -> AnyPublisher<[CityJSON], Error> {        
-        
-        let url = Bundle.main.url(forResource: "\(endpoint.urlString)", withExtension: "json")
-        
-        let urlRequest = request(for: url!, method: .GET)
-        
-        return apiManager.getData(for: urlRequest)
-        
-    }
         
     
     func request(for endpoint: URL, method: Method) -> URLRequest {
@@ -58,29 +49,6 @@ struct WeatherAPIManager {
 
 }
 
-enum Endpoint {
-    case weather
-    case forecast
-    case jsonLocalFileName
-    
-    var urlString: String {
-        
-        switch self {
-            
-            case .weather:
-                return Constants.WEATHER_URL_BASE_STRING
-            case .forecast:
-                return Constants.WEATHER_FORECAST_URL_BASE_STRING
-            
-            case .jsonLocalFileName:
-                return Constants.JSON_LOCAL_FILE_NAME
-        }
-    }
-}
 
-enum Method: String {
-        case GET
-    
-}
 
 

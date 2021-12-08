@@ -15,7 +15,7 @@ struct Constants {
     
     static let WEATHER_FORECAST_URL_BASE_STRING =  "https://api.openweathermap.org/data/2.5/forecast?appid=219476f806931eb3272535a511f85dea&units=metric"
 
-    static let JSON_LOCAL_FILE_NAME = "cities5"
+    static let JSON_LOCAL_FILE_NAME = "cities"
     
     static let RAIN_IMAGE =  UIImage(systemName: "cloud.rain")
     static let RAIN_IMAGE_COLOR =  UIColor.blue

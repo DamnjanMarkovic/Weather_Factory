@@ -21,6 +21,7 @@ class WeatherController  {
     var delegate: WeatherDelegate?
     
     var weatherApiManager: WeatherAPIManager!
+    var citiesApiManager: CitiesAPIManager!
     private let apiManager = APIManager()
     
     private(set) var weatherViewModel : WeatherViewModel! {
@@ -39,6 +40,8 @@ class WeatherController  {
     init() {
         
         weatherApiManager = WeatherAPIManager(apiManager: apiManager)
+        citiesApiManager = CitiesAPIManager(apiManager: apiManager)
+        
         getCityNames()
         
         guard let cityName = UserDefaults.standard.string(forKey: "CityName") else { return }
@@ -48,7 +51,7 @@ class WeatherController  {
 
     func getCityNames() {
             
-        weatherApiManager.getCityNamesFromJsonFile(endpoint: .jsonLocalFileName)
+        citiesApiManager.getCityNamesFromJsonFile(endpoint: .jsonLocalFileName)
             .eraseToAnyPublisher()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
@@ -70,7 +73,6 @@ class WeatherController  {
     
     func getTempForCity(cityName: String) {
         
-        UserDefaults.standard.set(cityName, forKey: "CityName")
         
         Publishers.Zip(weatherApiManager.getWeather(endpoint: .weather, cityName: cityName),
                        weatherApiManager.getWeatherForecast(endpoint: .forecast, cityName: cityName))
@@ -85,6 +87,7 @@ class WeatherController  {
                 }
             }, receiveValue: { [weak self] weatherModelArrived, forecastModelArrived in
                     self?.weatherViewModel = WeatherViewModel(weathermodel: weatherModelArrived, forecastModel: forecastModelArrived)
+                UserDefaults.standard.set(cityName, forKey: "CityName")
             })
             .store(in: &cancellables)
         
