@@ -7,13 +7,13 @@
 
 import UIKit
 
-class WeatherCell: UICollectionViewCell {
+class CellWeather: UICollectionViewCell {
 
     @IBOutlet var lblTime: UILabel!
     @IBOutlet var lblTemp: UILabel!    
     @IBOutlet var image: UIImageView!
     
-    static let identifier = "WeatherCell"
+    static let identifier = "CellWeather"
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,10 +21,10 @@ class WeatherCell: UICollectionViewCell {
     
     
     static func nib() -> UINib {
-        return UINib(nibName: "WeatherCell", bundle: nil)
+        return UINib(nibName: "CellWeather", bundle: nil)
     }
     
-    func configure(with viewModel: WeatherCellViewModel) {
+    func configure(with viewModel: CellViewModel) {
         lblTime.text = viewModel.time
         lblTemp.text = "\(viewModel.temperature)"
         

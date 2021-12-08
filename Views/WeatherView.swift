@@ -8,10 +8,10 @@
 import UIKit
 import Combine
 
-extension WeatherVC: WeatherDelegate {
+extension WeatherView: WeatherDelegate {
 
     
-    func updateWeather(weatherViewModel: WeatherVCModel) {
+    func updateWeather(weatherViewModel: WeatherViewModel) {
         DispatchQueue.main.async {
 
             self.weatherVCModel = weatherViewModel
@@ -28,7 +28,7 @@ extension WeatherVC: WeatherDelegate {
 }
 
 
-class WeatherVC: UIViewController {
+class WeatherView: UIViewController {
 
     @IBOutlet var stackViewWeatherCells: UIStackView!
     
@@ -51,14 +51,14 @@ class WeatherVC: UIViewController {
     
     
     
-    private var dataSourceWeather:WeatherVCDataSource<WeatherCellViewModel>?
-    private var dataSourceDailyWeather:WeatherVCDataSource<WeatherCellViewModel>?
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var collectionViewDays: UICollectionView!
+    private var dataSourceWeather:WeatherDataSource<CellViewModel>?
+    private var dataSourceDailyWeather:WeatherDataSource<CellViewModel>?
+    @IBOutlet weak var collectionViewWeather: UICollectionView!
+    @IBOutlet weak var collectionViewForecast: UICollectionView!
     
     
     
-    private(set) var weatherVCModel : WeatherVCModel! {
+    private(set) var weatherVCModel : WeatherViewModel! {
         didSet {
             lblCityName.text = weatherVCModel.cityName
             lblTemp.text = "\(weatherVCModel.temperature)"
@@ -76,16 +76,16 @@ class WeatherVC: UIViewController {
 //            }
 //        }
     
-    func renderTableViewdataSource(_ weatherVCModel: WeatherVCModel){
-        dataSourceWeather = WeatherVCDataSource.displayDataWeatherCell(for: weatherVCModel.dailyWeatherCellViewModel, withCellidentifier: WeatherCell.identifier, collectionView: collectionView)
-        collectionView.dataSource = dataSourceWeather
-        collectionView.delegate = self
-        collectionView.reloadData()
+    func renderTableViewdataSource(_ weatherVCModel: WeatherViewModel){
+        dataSourceWeather = WeatherDataSource.displayDataWeatherCell(for: weatherVCModel.dailyWeatherCellViewModel, withCellidentifier: CellWeather.identifier, collectionView: collectionViewWeather)
+        collectionViewWeather.dataSource = dataSourceWeather
+        collectionViewWeather.delegate = self
+        collectionViewWeather.reloadData()
         
-        dataSourceDailyWeather = WeatherVCDataSource.displayDataDailyWeatherCell(for: weatherVCModel.weatherCellViewModels, withCellidentifier: DailyWeatherCell.identifier, collectionView: collectionViewDays)
-        collectionViewDays.dataSource = dataSourceDailyWeather
-        collectionViewDays.delegate = self
-        collectionViewDays.reloadData()
+        dataSourceDailyWeather = WeatherDataSource.displayDataDailyWeatherCell(for: weatherVCModel.weatherCellViewModels, withCellidentifier: CellForecast.identifier, collectionView: collectionViewForecast)
+        collectionViewForecast.dataSource = dataSourceDailyWeather
+        collectionViewForecast.delegate = self
+        collectionViewForecast.reloadData()
         
         
     }
@@ -93,7 +93,7 @@ class WeatherVC: UIViewController {
     
     
     
-    var viewModel = WeatherVCManager()
+    var viewModel = WeatherController()
     
     private var subscriber: AnyCancellable?
     
@@ -142,10 +142,10 @@ class WeatherVC: UIViewController {
 }
 
 
-extension WeatherVC: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+extension WeatherView: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == self.collectionViewDays {
+        if collectionView == self.collectionViewForecast {
             return CGSize(width: 90, height: 110)
             }
         else {
@@ -156,7 +156,7 @@ extension WeatherVC: UICollectionViewDelegateFlowLayout, UICollectionViewDelegat
 
 //MARK: - UITextFieldDelegate
 
-extension WeatherVC: UITextFieldDelegate {
+extension WeatherView: UITextFieldDelegate {
 
     @IBAction func btnSearchCity(_ sender: UIButton) {
         searchTextField.endEditing(true)

@@ -8,18 +8,18 @@
 import Foundation
 
 
-struct WeatherVCModel {
+struct WeatherViewModel {
     
-    var weatherCellViewModels = [WeatherCellViewModel]()
-    var dailyWeatherCellViewModel = [WeatherCellViewModel]()
+    var weatherCellViewModels = [CellViewModel]()
+    var dailyWeatherCellViewModel = [CellViewModel]()
     var cityName: String
     var weatherDescription: String
     var temperature: String
     var humidity: Double
     
     init() {
-        weatherCellViewModels = [WeatherCellViewModel]()
-        dailyWeatherCellViewModel = [WeatherCellViewModel]()
+        weatherCellViewModels = [CellViewModel]()
+        dailyWeatherCellViewModel = [CellViewModel]()
         cityName = ""
         weatherDescription = ""
         temperature = ""
@@ -27,10 +27,10 @@ struct WeatherVCModel {
     }
     
     
-    init(weathermodel: WeatherModel, weatherForecastModel: WeatherForecastModel){
+    init(weathermodel: WeatherModel, weatherForecastModel: ForecastModel){
         var IsDay = false
-        var weatherCellViewModels = [WeatherCellViewModel]()
-        var dailyWeatherCellViewModels = [WeatherCellViewModel]()
+        var weatherCellViewModels = [CellViewModel]()
+        var dailyWeatherCellViewModels = [CellViewModel]()
         var positionOfTheDay = 0
         let timeZoneDifference = weathermodel.timezone
         var dayInTheWeek = ""
@@ -51,12 +51,12 @@ struct WeatherVCModel {
 
 
                 
-                let weatherCellViewModel = WeatherCellViewModel(weatherByDay: element, IsDay: IsDay, timeZoneDifference: timeZoneDifference
+                let weatherCellViewModel = CellViewModel(weatherByDay: element, IsDay: IsDay, timeZoneDifference: timeZoneDifference
                 )
                 weatherCellViewModels.append(weatherCellViewModel)
 
             if (positionOfTheDay < 2) {
-                let dailyWeatherCellViewModel = WeatherCellViewModel(weatherByDay: element, IsDay: IsDay, timeZoneDifference: timeZoneDifference)
+                let dailyWeatherCellViewModel = CellViewModel(weatherByDay: element, IsDay: IsDay, timeZoneDifference: timeZoneDifference)
                 
                 
                 dailyWeatherCellViewModels.append(dailyWeatherCellViewModel)

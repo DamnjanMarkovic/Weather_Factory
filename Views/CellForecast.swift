@@ -8,14 +8,14 @@
 
 import UIKit
 
-class DailyWeatherCell: UICollectionViewCell {
+class CellForecast: UICollectionViewCell {
 
     @IBOutlet var lblTime: UILabel!    
     @IBOutlet var lblTemp: UILabel!    
     @IBOutlet var lbldayInTheWeek: UILabel!    
     @IBOutlet var image: UIImageView!
     
-    static let identifier = "DailyWeatherCell"
+    static let identifier = "CellForecast"
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,10 +23,10 @@ class DailyWeatherCell: UICollectionViewCell {
     
     
     static func nib() -> UINib {
-        return UINib(nibName: "DailyWeatherCell", bundle: nil)
+        return UINib(nibName: "CellForecast", bundle: nil)
     }
     
-    func configure(with viewModel: WeatherCellViewModel) {
+    func configure(with viewModel: CellViewModel) {
         lblTime.text = viewModel.time
         lblTemp.text = "\(viewModel.temperature)"
         lbldayInTheWeek.text = viewModel.dayInTheWeek

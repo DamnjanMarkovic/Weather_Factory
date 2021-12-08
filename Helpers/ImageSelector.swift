@@ -18,7 +18,7 @@ enum WeatherModes: String{
     
 }
 
-struct WeatherImageProvider {
+struct ImageSelector {
 
     static func getImageFromName(name: String, isDay: Bool) -> UIImage {
         

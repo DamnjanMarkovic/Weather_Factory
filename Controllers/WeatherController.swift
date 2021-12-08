@@ -9,14 +9,14 @@ import UIKit
 import Combine
 
 protocol WeatherDelegate {
-    func updateWeather(weatherViewModel: WeatherVCModel)
+    func updateWeather(weatherViewModel: WeatherViewModel)
     func toggleSpinner()
 }
 
 
 //class WeatherVCManager : ObservableObject {
     
-class WeatherVCManager  {
+class WeatherController  {
 //        @Published var value = ""
         
         private var cancellables = Set<AnyCancellable>()
@@ -29,7 +29,7 @@ class WeatherVCManager  {
     var webService: WeatherService!
     private let apiManager = APIManager()
     
-    private(set) var weatherViewModel : WeatherVCModel! {
+    private(set) var weatherViewModel : WeatherViewModel! {
         didSet {
             self.delegate?.updateWeather(weatherViewModel: weatherViewModel)
         }
@@ -75,7 +75,7 @@ class WeatherVCManager  {
                 }
                 }, receiveValue: { [weak self] weatherModelArrived, weatherForecastModelArrived in
                     
-                    self?.weatherViewModel = WeatherVCModel(weathermodel: weatherModelArrived, weatherForecastModel: weatherForecastModelArrived)                    
+                    self?.weatherViewModel = WeatherViewModel(weathermodel: weatherModelArrived, weatherForecastModel: weatherForecastModelArrived)                    
             })
             .store(in: &cancellables)
         

@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--WeatherVC-->
+        <!--Weather View-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="WeatherVC" customModule="FactoryWeather" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="WeatherView" customModule="FactoryWeather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -102,7 +102,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="WeatherCell" id="6ff-NV-zVN" customClass="WeatherCell" customModule="FactoryWeather" customModuleProvider="target">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="CellWeather" id="6ff-NV-zVN" customClass="CellWeather" customModule="FactoryWeather" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="10" width="70" height="70"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="OxF-mU-gmm">
@@ -152,7 +152,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DailyWeatherCell" id="Gpf-Go-d7w" customClass="DailyWeatherCell" customModule="FactoryWeather" customModuleProvider="target">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CellForecast" id="Gpf-Go-d7w" customClass="CellForecast" customModule="FactoryWeather" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="-5" width="100" height="100"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -226,8 +226,8 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="2gc-Vo-m0G" id="yJX-vV-ZzU"/>
-                        <outlet property="collectionView" destination="MMy-ie-DgW" id="Vtr-vY-Ix5"/>
-                        <outlet property="collectionViewDays" destination="ed8-fz-3ZS" id="1XJ-M6-XrH"/>
+                        <outlet property="collectionViewForecast" destination="ed8-fz-3ZS" id="1XJ-M6-XrH"/>
+                        <outlet property="collectionViewWeather" destination="MMy-ie-DgW" id="Vtr-vY-Ix5"/>
                         <outlet property="lblCityName" destination="VOF-gL-xud" id="4fC-b2-sO5"/>
                         <outlet property="lblTemp" destination="Vek-sS-aNa" id="vta-v6-L9M"/>
                         <outlet property="lblWeatherDaysTitle" destination="bkw-zh-8bL" id="JY6-0u-xog"/>

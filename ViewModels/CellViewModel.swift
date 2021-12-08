@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct WeatherCellViewModel {
+struct CellViewModel {
     
     var temperature: String
     var time: String
@@ -31,8 +31,8 @@ struct WeatherCellViewModel {
         self.temperature = String(format: "%.0f°", weatherByDay.main.temp)
         self.time = "\(TimeConverter.getTimeFromMS(time: Int(weatherByDay.dt+timeZoneDifference)))"
         self.dayInTheWeek = TimeConverter.getDayNameFromMS(time: Int(weatherByDay.dt+timeZoneDifference))
-        self.image = WeatherImageProvider.getImageFromName(name: weatherByDay.weather.first!.main, isDay: IsDay)
-        self.imageColor = WeatherImageProvider.getImageColor(name: weatherByDay.weather.first!.main, isDay: IsDay)
+        self.image = ImageSelector.getImageFromName(name: weatherByDay.weather.first!.main, isDay: IsDay)
+        self.imageColor = ImageSelector.getImageColor(name: weatherByDay.weather.first!.main, isDay: IsDay)
         self.isDay = IsDay
     
     

@@ -24,7 +24,7 @@ struct WeatherService {
             .fetchWeather(for: url, method: .GET)
     }
     
-    func getWeatherForecast(endpoint: Endpoint, cityName: String) -> AnyPublisher<WeatherForecastModel, Error> {
+    func getWeatherForecast(endpoint: Endpoint, cityName: String) -> AnyPublisher<ForecastModel, Error> {
 
         let url = "\(endpoint.urlString)&q=\(cityName)"
         

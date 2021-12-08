@@ -10,7 +10,8 @@ import Foundation
 protocol WeatherProtocol {
 }
 
-struct WeatherForecastModel: WeatherProtocol, Codable {
+
+struct ForecastModel: WeatherProtocol, Codable {
     var list: [WeatherByDays]
     var city: City
 }

@@ -9,23 +9,23 @@ import Foundation
 import UIKit
 
 
-extension WeatherVCDataSource where Model == WeatherCellViewModel{
+extension WeatherDataSource where Model == CellViewModel{
 
-    static func displayDataWeatherCell(for weather:[WeatherCellViewModel],
+    static func displayDataWeatherCell(for weather:[CellViewModel],
                             withCellidentifier reuseIdentifier: String, collectionView: UICollectionView)
-                            -> WeatherVCDataSource {
+                            -> WeatherDataSource {
         
-        return WeatherVCDataSource(models: weather, reuseIdentifier: reuseIdentifier, collectionView: collectionView, cellConfigurator: { (weather, cell ) in
-        let weatherCell: WeatherCell = cell as! WeatherCell
+        return WeatherDataSource(models: weather, reuseIdentifier: reuseIdentifier, collectionView: collectionView, cellConfigurator: { (weather, cell ) in
+        let weatherCell: CellWeather = cell as! CellWeather
                                     weatherCell.configure(with: weather)
         })
     }
-    static func displayDataDailyWeatherCell(for weather:[WeatherCellViewModel],
+    static func displayDataDailyWeatherCell(for weather:[CellViewModel],
                             withCellidentifier reuseIdentifier: String, collectionView: UICollectionView)
-                            -> WeatherVCDataSource {
+                            -> WeatherDataSource {
         
-        return WeatherVCDataSource(models: weather, reuseIdentifier: reuseIdentifier, collectionView: collectionView, cellConfigurator: { (weather, cell ) in
-        let weatherCell: DailyWeatherCell = cell as! DailyWeatherCell
+        return WeatherDataSource(models: weather, reuseIdentifier: reuseIdentifier, collectionView: collectionView, cellConfigurator: { (weather, cell ) in
+        let weatherCell: CellForecast = cell as! CellForecast
             weatherCell.configure(with: weather)
         })
     }
@@ -33,7 +33,7 @@ extension WeatherVCDataSource where Model == WeatherCellViewModel{
 
 
 
-class WeatherVCDataSource<Model>: NSObject, UICollectionViewDataSource {
+class WeatherDataSource<Model>: NSObject, UICollectionViewDataSource {
     
     typealias CellConfigurator = (Model, UICollectionViewCell) -> Void
 
