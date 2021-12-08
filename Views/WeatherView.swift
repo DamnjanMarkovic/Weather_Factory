@@ -43,6 +43,7 @@ class WeatherView: UIViewController {
 
     private var spinnerShowing: Bool = false
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    
     @IBOutlet weak var uiViewSpinner: UIView! {
       didSet {
           uiViewSpinner.layer.cornerRadius = 6
@@ -64,6 +65,7 @@ class WeatherView: UIViewController {
             lblTemp.text = "\(weatherVCModel.temperature)"
             lblWeatherDescription.text = weatherVCModel.weatherDescription
             self.renderTableViewdataSource(self.weatherVCModel)
+            searchTextField.autocapitalizationType = .allCharacters
         }
     }
     
@@ -77,12 +79,12 @@ class WeatherView: UIViewController {
 //        }
     
     func renderTableViewdataSource(_ weatherVCModel: WeatherViewModel){
-        dataSourceWeather = WeatherDataSource.displayDataWeatherCell(for: weatherVCModel.dailyWeatherCellViewModel, withCellidentifier: CellWeather.identifier, collectionView: collectionViewWeather)
+        dataSourceWeather = WeatherDataSource.displayWeatherCell(for: weatherVCModel.dailyWeatherCellViewModel, withCellidentifier: CellWeather.identifier, collectionView: collectionViewWeather)
         collectionViewWeather.dataSource = dataSourceWeather
         collectionViewWeather.delegate = self
         collectionViewWeather.reloadData()
         
-        dataSourceDailyWeather = WeatherDataSource.displayDataDailyWeatherCell(for: weatherVCModel.weatherCellViewModels, withCellidentifier: CellForecast.identifier, collectionView: collectionViewForecast)
+        dataSourceDailyWeather = WeatherDataSource.displayForecastCell(for: weatherVCModel.weatherCellViewModels, withCellidentifier: CellForecast.identifier, collectionView: collectionViewForecast)
         collectionViewForecast.dataSource = dataSourceDailyWeather
         collectionViewForecast.delegate = self
         collectionViewForecast.reloadData()
@@ -162,29 +164,28 @@ extension WeatherView: UITextFieldDelegate {
         searchTextField.endEditing(true)
     }
 
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        searchTextField.endEditing(true)
+        searchTextField.resignFirstResponder()
+//        searchTextField.endEditing(true)
         return true
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField.text != "" {
-            return true
-        }
-        else {
-            textField.placeholder = "Enter something"
-            return false
-        }
+        
+        return ((searchTextField.text?.isEmpty) != nil)
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let city = searchTextField.text {
 
             viewModel.getTempForCity(cityName: city)
-
         }
-        
-
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return !viewModel.autoCompleteText( in : textField, using: string, suggestionsArray: viewModel.cityNames)
+    }
+
 }
 
 

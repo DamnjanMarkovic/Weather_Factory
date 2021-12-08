@@ -10,33 +10,41 @@ import UIKit
 
 struct CellViewModel {
     
+    var weatherModelId: Int
     var temperature: String
     var time: String
     var dayInTheWeek: String
-    var image: UIImage
-    var imageColor: UIColor
-    var isDay: Bool
     
-    init() {
-         temperature = ""
-         time = ""
-         dayInTheWeek = ""
-         image = UIImage()
-         imageColor = UIColor.white
-         isDay = true
-    }
-    
-    init(weatherByDay: WeatherByDays, IsDay: Bool, timeZoneDifference: TimeInterval){
-        
+    init(weatherByDay: WeatherByDays, timeZoneDifference: TimeInterval){
+        self.weatherModelId = weatherByDay.weather.first!.id
         self.temperature = String(format: "%.0f°", weatherByDay.main.temp)
-        self.time = "\(TimeConverter.getTimeFromMS(time: Int(weatherByDay.dt+timeZoneDifference)))"
-        self.dayInTheWeek = TimeConverter.getDayNameFromMS(time: Int(weatherByDay.dt+timeZoneDifference))
-        self.image = ImageSelector.getImageFromName(name: weatherByDay.weather.first!.main, isDay: IsDay)
-        self.imageColor = ImageSelector.getImageColor(name: weatherByDay.weather.first!.main, isDay: IsDay)
-        self.isDay = IsDay
-    
-    
+        self.time = "\(TimeConverter.getTimeFromMS(time: Int(weatherByDay.dt-timeZoneDifference)))"
+        self.dayInTheWeek = TimeConverter.getDayNameFromMS(time: Int(weatherByDay.dt-timeZoneDifference))
+        
     
     }
+
+    
+        var image: UIImage {
+            switch weatherModelId {
+            case 200...232:
+                return UIImage(systemName: "cloud.bolt")!
+            case 300...321:
+                return UIImage(systemName: "cloud.drizzle")!
+            case 500...531:
+                return UIImage(systemName: "cloud.rain")!
+            case 600...622:
+                return UIImage(systemName: "cloud.snow")!
+            case 701...781:
+                return UIImage(systemName: "cloud.fog")!
+            case 800:
+                return UIImage(systemName: "sun.max")!
+            case 801...804:
+                return UIImage(systemName: "cloud")!
+            default:
+                return UIImage(systemName: "cloud")!
+            }
+        }
+
     
 }

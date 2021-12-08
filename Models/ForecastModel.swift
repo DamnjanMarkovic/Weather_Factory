@@ -31,4 +31,20 @@ struct City: Codable {
     var sunset: TimeInterval
 }
 
+struct CityJSON: Decodable {
+    var name: String
+
+}
+
+
+
+struct ResponseData: Decodable {
+    var person: [Person]
+}
+struct Person : Decodable {
+    var name: String
+    var age: String
+    var employed: String
+}
+
 

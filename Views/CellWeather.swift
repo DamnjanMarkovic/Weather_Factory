@@ -27,18 +27,12 @@ class CellWeather: UICollectionViewCell {
     func configure(with viewModel: CellViewModel) {
         lblTime.text = viewModel.time
         lblTemp.text = "\(viewModel.temperature)"
-        
-        if viewModel.isDay {
-            lblTime.textColor = .white
-            lblTemp.textColor = .white
-        }
-        else {
-            lblTime.textColor = .black
-            lblTemp.textColor = .black
-        }
+
+        lblTime.textColor = .white
+        lblTemp.textColor = .white
         
         image.image = viewModel.image
-        image.tintColor = viewModel.imageColor
+        image.tintColor = UIColor.white
 
     }
 

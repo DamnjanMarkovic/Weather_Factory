@@ -14,19 +14,13 @@ protocol WeatherDelegate {
 }
 
 
-//class WeatherVCManager : ObservableObject {
     
 class WeatherController  {
-//        @Published var value = ""
         
-        private var cancellables = Set<AnyCancellable>()
-        
-
-    
+    private var cancellables = Set<AnyCancellable>()
     var delegate: WeatherDelegate?
     
-    
-    var webService: WeatherService!
+    var weatherApiManager: WeatherAPIManager!
     private let apiManager = APIManager()
     
     private(set) var weatherViewModel : WeatherViewModel! {
@@ -35,47 +29,62 @@ class WeatherController  {
         }
     }
     
-    init() {
-        webService = WeatherService(apiManager: apiManager)
-        
-        
-        if let path = Bundle.main.path(forResource: "People", ofType: "json") {
-            let peoplesArray = try! JSONSerialization.jsonObject(
-                    with: Data(contentsOf: URL(fileURLWithPath: path)),
-                    options: JSONSerialization.ReadingOptions()
-            ) as? [AnyObject]
-            for people in peoplesArray! {
-                print(people)
-            }
+    private(set) var cityNames : [String]! {
+        didSet {
+            print(cityNames!)
         }
-        
-        
-        
-        
-        
-        getTempForCity(cityName: "Belgrade")
     }
-        
     
-    var usersSubject = PassthroughSubject<[WeatherModel], Error>()
+    
+    init() {
+        
+        weatherApiManager = WeatherAPIManager(apiManager: apiManager)
+        getCityNames()
+        
+        guard let cityName = UserDefaults.standard.string(forKey: "CityName") else { return }
+        getTempForCity(cityName: cityName)
+    }
+    
+
+    func getCityNames() {
+            
+        weatherApiManager.getCityNamesFromJsonFile(endpoint: .jsonLocalFileName)
+            .eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                     switch completion {
+                     case .failure(let error):
+                         print(self?.cityNames as Any)
+                         print((error))
+                     case .finished: break
+                     }
+                 }, receiveValue: { [weak self] (cityNames) in
+                     self!.cityNames = cityNames.map({ (city: CityJSON) -> String in
+                         city.name.uppercased()
+                 })
+            })
+            .store(in: &cancellables)
+    }
+    
+    
     
     func getTempForCity(cityName: String) {
         
+        UserDefaults.standard.set(cityName, forKey: "CityName")
         
-        Publishers.Zip(webService.getWeather(endpoint: .weather, cityName: cityName),
-                       webService.getWeatherForecast(endpoint: .weatherForecast, cityName: cityName))
+        Publishers.Zip(weatherApiManager.getWeather(endpoint: .weather, cityName: cityName),
+                       weatherApiManager.getWeatherForecast(endpoint: .forecast, cityName: cityName))
             .eraseToAnyPublisher()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
                 case .failure(let error):
+                    print(self?.cityNames as Any)
                     print(error)
-                case .finished:
-                    break
+                case .finished: break
                 }
-                }, receiveValue: { [weak self] weatherModelArrived, weatherForecastModelArrived in
-                    
-                    self?.weatherViewModel = WeatherViewModel(weathermodel: weatherModelArrived, weatherForecastModel: weatherForecastModelArrived)                    
+            }, receiveValue: { [weak self] weatherModelArrived, forecastModelArrived in
+                    self?.weatherViewModel = WeatherViewModel(weathermodel: weatherModelArrived, forecastModel: forecastModelArrived)
             })
             .store(in: &cancellables)
         
@@ -83,5 +92,30 @@ class WeatherController  {
         
 
     }
+    
+    func autoCompleteText( in textField: UITextField, using string: String, suggestionsArray: [String]) -> Bool {
+            if !string.isEmpty,
+                let selectedTextRange = textField.selectedTextRange,
+                selectedTextRange.end == textField.endOfDocument,
+                let prefixRange = textField.textRange(from: textField.beginningOfDocument, to: selectedTextRange.start),
+                let text = textField.text( in : prefixRange) {
+                let prefix = text + string
+                let matches = suggestionsArray.filter {
+                    $0.hasPrefix(prefix)
+                }
+                if (matches.count > 0) {
+                    textField.text = matches[0]
+                    if let start = textField.position(from: textField.beginningOfDocument, offset: prefix.count) {
+                        textField.selectedTextRange = textField.textRange(from: start, to: textField.endOfDocument)
+                        return true
+                    }
+                }
+            }
+            return false
+    }
+        
+    
+//    var usersSubject = PassthroughSubject<[WeatherModel], Error>()
+
     
 }

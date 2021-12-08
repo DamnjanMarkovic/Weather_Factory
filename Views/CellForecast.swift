@@ -31,19 +31,12 @@ class CellForecast: UICollectionViewCell {
         lblTemp.text = "\(viewModel.temperature)"
         lbldayInTheWeek.text = viewModel.dayInTheWeek
         
-        if viewModel.isDay {
-            lblTime.textColor = .white
-            lblTemp.textColor = .white
-            lbldayInTheWeek.textColor = .white
-        }
-        else {
-            lblTime.textColor = .black
-            lblTemp.textColor = .black
-            lbldayInTheWeek.textColor = .black
-        }
+        lblTime.textColor = .white
+        lblTemp.textColor = .white
+        lbldayInTheWeek.textColor = .white
         
         image.image = viewModel.image
-        image.tintColor = viewModel.imageColor
+        image.tintColor = UIColor.white
     }
 
 }

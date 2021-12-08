@@ -11,7 +11,7 @@ import UIKit
 
 extension WeatherDataSource where Model == CellViewModel{
 
-    static func displayDataWeatherCell(for weather:[CellViewModel],
+    static func displayWeatherCell(for weather:[CellViewModel],
                             withCellidentifier reuseIdentifier: String, collectionView: UICollectionView)
                             -> WeatherDataSource {
         
@@ -20,7 +20,7 @@ extension WeatherDataSource where Model == CellViewModel{
                                     weatherCell.configure(with: weather)
         })
     }
-    static func displayDataDailyWeatherCell(for weather:[CellViewModel],
+    static func displayForecastCell(for weather:[CellViewModel],
                             withCellidentifier reuseIdentifier: String, collectionView: UICollectionView)
                             -> WeatherDataSource {
         

@@ -17,55 +17,30 @@ struct WeatherViewModel {
     var temperature: String
     var humidity: Double
     
-    init() {
-        weatherCellViewModels = [CellViewModel]()
-        dailyWeatherCellViewModel = [CellViewModel]()
-        cityName = ""
-        weatherDescription = ""
-        temperature = ""
-        humidity = 0
-    }
     
     
-    init(weathermodel: WeatherModel, weatherForecastModel: ForecastModel){
-        var IsDay = false
+    
+    init(weathermodel: WeatherModel, forecastModel: ForecastModel){
+        var forecastCellViewModels = [CellViewModel]()
         var weatherCellViewModels = [CellViewModel]()
-        var dailyWeatherCellViewModels = [CellViewModel]()
-        var positionOfTheDay = 0
         let timeZoneDifference = weathermodel.timezone
-        var dayInTheWeek = ""
         
-        weatherForecastModel.list.forEach { element in
-            
-            
-            IsDay = TimeConverter.CheckIfIsDay(positionOfTheDay: positionOfTheDay, time: element.dt+timeZoneDifference,
-                                 sunrise: weatherForecastModel.city.sunrise+timeZoneDifference,
-                                 sunset: weatherForecastModel.city.sunset+timeZoneDifference)
-            
-            
-            if (dayInTheWeek != TimeConverter.getDayNameFromMS(time: Int(element.dt+timeZoneDifference))) {
-                positionOfTheDay += 1
-                dayInTheWeek = TimeConverter.getDayNameFromMS(time: Int(element.dt+timeZoneDifference))
-            }
+        
+        forecastModel.list.enumerated().forEach( { (index, element) in
 
+            if index < 8 {
+                let weatherCellViewModel = CellViewModel(weatherByDay: element, timeZoneDifference: timeZoneDifference)
 
-
-                
-                let weatherCellViewModel = CellViewModel(weatherByDay: element, IsDay: IsDay, timeZoneDifference: timeZoneDifference
-                )
                 weatherCellViewModels.append(weatherCellViewModel)
-
-            if (positionOfTheDay < 2) {
-                let dailyWeatherCellViewModel = CellViewModel(weatherByDay: element, IsDay: IsDay, timeZoneDifference: timeZoneDifference)
-                
-                
-                dailyWeatherCellViewModels.append(dailyWeatherCellViewModel)
             }
+            
+            let forecastCellViewModel = CellViewModel(weatherByDay: element, timeZoneDifference: timeZoneDifference)
+            forecastCellViewModels.append(forecastCellViewModel)
 
-        }
+        })
         
-        self.weatherCellViewModels = weatherCellViewModels
-        self.dailyWeatherCellViewModel = dailyWeatherCellViewModels
+        self.weatherCellViewModels = forecastCellViewModels
+        self.dailyWeatherCellViewModel = weatherCellViewModels
         self.cityName = weathermodel.name
         self.weatherDescription = weathermodel.weather.first!.description
         self.temperature = String(format: "%.0f°", weathermodel.main.temp)
