@@ -35,7 +35,9 @@ class CellForecast: UICollectionViewCell {
         lblTemp.textColor = .white
         lbldayInTheWeek.textColor = .white
         
+        
         image.image = viewModel.image
+        
         image.tintColor = UIColor.white
     }
 

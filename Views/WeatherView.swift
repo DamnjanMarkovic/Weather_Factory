@@ -9,125 +9,74 @@ import UIKit
 import Combine
 
 extension WeatherView: WeatherDelegate {
-
-    
-    func updateWeather(weatherViewModel: WeatherViewModel) {
+    func errorOccured(_ error: String) {
         DispatchQueue.main.async {
-
-            self.weatherVCModel = weatherViewModel
+            self.lblCityName.adjustsFontSizeToFitWidth = true
+            self.lblCityName.text = error
+            self.lblCityName.textColor = UIColor.red
         }
     }
-    func toggleSpinner() {
-        if spinnerShowing {
+    
+    func turnSpinner(_ with: TurnSpinner) {
+        switch with {
+        case .ON:
+            showSpinner()
+        case .OFF:
             hideSpinner()
         }
-        else {
-            showSpinner()
+    }
+    func updateWeather(weatherViewModel: WeatherViewModel) {
+        DispatchQueue.main.async {
+            self.weatherViewModel = weatherViewModel
         }
     }
-}
 
+}
 
 class WeatherView: UIViewController {
 
-    @IBOutlet var stackViewWeatherCells: UIStackView!
-    
-    @IBOutlet var lblWeatherDescription: UILabel!
-    @IBOutlet var stackViewWeatherDays: UIStackView!
 
+    @IBOutlet var lblWeatherDescription: UILabel!
     @IBOutlet var lblWeatherDaysTitle: UILabel!
-    
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet var lblCityName: UILabel!
-    @IBOutlet var lblTemp: UILabel!    
-
+    @IBOutlet var lblTemp: UILabel!
+    
     private var spinnerShowing: Bool = false
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    
     @IBOutlet weak var uiViewSpinner: UIView! {
       didSet {
           uiViewSpinner.layer.cornerRadius = 6
       }
     }
     
+    private(set) var weatherViewModel : WeatherViewModel! {
+        didSet {
+            lblCityName.text = weatherViewModel.cityName
+            lblCityName.textColor = UIColor.white
+            lblTemp.text = "\(weatherViewModel.temperature ?? "0°")"
+            lblWeatherDescription.text = weatherViewModel.weatherDescription
+            self.renderTableViewdataSource(weatherViewModel)
+        }
+    }
     
+    var weatherController = WeatherController()
     
     private var dataSourceWeather:WeatherDataSource<CellViewModel>?
     private var dataSourceDailyWeather:WeatherDataSource<CellViewModel>?
     @IBOutlet weak var collectionViewWeather: UICollectionView!
     @IBOutlet weak var collectionViewForecast: UICollectionView!
-    
-    
-    
-    private(set) var weatherVCModel : WeatherViewModel! {
-        didSet {
-            lblCityName.text = weatherVCModel.cityName
-            lblTemp.text = "\(weatherVCModel.temperature)"
-            lblWeatherDescription.text = weatherVCModel.weatherDescription
-            self.renderTableViewdataSource(self.weatherVCModel)
-            searchTextField.autocapitalizationType = .allCharacters
-        }
-    }
-    
-//    var loggedInUserEmailid:String?
-//        private var error: Error? {
-//            willSet(error) {
-//                DispatchQueue.main.async {
-//                    AlertManager.shareinstance.showAlert(on: self, alertmessageTitle: "Error occured", alertmessageContent: error?.localizedDescription ?? "")
-//                }
-//            }
-//        }
-    
-    func renderTableViewdataSource(_ weatherVCModel: WeatherViewModel){
-        dataSourceWeather = WeatherDataSource.displayWeatherCell(for: weatherVCModel.dailyWeatherCellViewModel, withCellidentifier: CellWeather.identifier, collectionView: collectionViewWeather)
-        collectionViewWeather.dataSource = dataSourceWeather
-        collectionViewWeather.delegate = self
-        collectionViewWeather.reloadData()
-        
-        dataSourceDailyWeather = WeatherDataSource.displayForecastCell(for: weatherVCModel.weatherCellViewModels, withCellidentifier: CellForecast.identifier, collectionView: collectionViewForecast)
-        collectionViewForecast.dataSource = dataSourceDailyWeather
-        collectionViewForecast.delegate = self
-        collectionViewForecast.reloadData()
-        
-        
-    }
-    
-    
-    
-    
-    var viewModel = WeatherController()
-    
-    private var subscriber: AnyCancellable?
-    
-    
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         searchTextField.delegate = self
-        viewModel.delegate = self
-
-        hideSpinner()
- 
+        weatherController.delegate = self
+        collectionViewWeather.delegate = self
+        collectionViewForecast.delegate = self
     }
     
-    
 
-    
-//    private func observeViewModel() {
-//            subscriber = viewModel.usersSubject.sink(receiveCompletion: { (resultCompletion) in
-//                switch resultCompletion {
-//                case .failure(let error):
-//                    print(error.localizedDescription)
-//                default: break
-//                }
-//            }) { (result) in
-//                DispatchQueue.main.async {
-//                    print(result)
-//                    self.collectionView.reloadData()
-//                }
-//            }
-//        }
     
     private func showSpinner() {
         activityIndicator.startAnimating()
@@ -140,6 +89,21 @@ class WeatherView: UIViewController {
         uiViewSpinner.isHidden = true
         spinnerShowing = false
     }
+    
+    
+    func renderTableViewdataSource(_ weatherVCModel: WeatherViewModel){
+        
+        if weatherVCModel.weatherCellViewModels.count > 0 {
+            
+            dataSourceWeather = WeatherDataSource.displayWeatherCell(for: (Array<CellViewModel>(weatherVCModel.weatherCellViewModels.prefix(upTo:8)) as [CellViewModel]), withCellidentifier: CellWeather.identifier, collectionView: collectionViewWeather)
+            collectionViewWeather.dataSource = dataSourceWeather
+            
+            dataSourceDailyWeather = WeatherDataSource.displayForecastCell(for: (Array<CellViewModel>(weatherVCModel.weatherCellViewModels[5..<weatherVCModel.weatherCellViewModels.count]) as [CellViewModel]),
+              withCellidentifier: CellForecast.identifier, collectionView: collectionViewForecast)
+            collectionViewForecast.dataSource = dataSourceDailyWeather
+        }
+    }
+    
 
 }
 
@@ -167,7 +131,6 @@ extension WeatherView: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.resignFirstResponder()
-//        searchTextField.endEditing(true)
         return true
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
@@ -178,12 +141,12 @@ extension WeatherView: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let city = searchTextField.text {
 
-            viewModel.getTempForCity(cityName: city)
+            weatherController.getTempForCity(cityName: city)
         }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return !viewModel.autoCompleteText( in : textField, using: string, suggestionsArray: viewModel.cityNames)
+        return !weatherController.autoCompleteText( in : textField, using: string, suggestionsArray: weatherController.cityNames)
     }
 
 }

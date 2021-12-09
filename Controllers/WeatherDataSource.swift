@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-extension WeatherDataSource where Model == CellViewModel{
+extension WeatherDataSource where Model == CellViewModel {
 
     static func displayWeatherCell(for weather:[CellViewModel],
                             withCellidentifier reuseIdentifier: String, collectionView: UICollectionView)

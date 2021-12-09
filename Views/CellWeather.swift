@@ -31,7 +31,10 @@ class CellWeather: UICollectionViewCell {
         lblTime.textColor = .white
         lblTemp.textColor = .white
         
+        
+            
         image.image = viewModel.image
+        
         image.tintColor = UIColor.white
 
     }

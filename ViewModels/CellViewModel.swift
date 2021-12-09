@@ -24,7 +24,7 @@ struct CellViewModel {
     
     }
 
-    
+
         var image: UIImage {
             switch weatherModelId {
             case 200...232:

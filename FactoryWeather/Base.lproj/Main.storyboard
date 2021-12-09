@@ -47,7 +47,7 @@
                                     <action selector="btnSearchCity:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xtE-pd-cOd"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VOF-gL-xud">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VOF-gL-xud">
                                 <rect key="frame" x="10" y="179" width="394" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="68U-qc-iVx"/>
@@ -175,18 +175,18 @@
                                     <constraint firstItem="rsc-ga-dN4" firstAttribute="leading" secondItem="t0w-5c-S6g" secondAttribute="leading" id="zll-Ga-AUJ"/>
                                 </constraints>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="agr-Qs-pIg">
-                                <rect key="frame" x="379" y="521" width="25" height="25"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tlJ-bY-r2v">
+                                <rect key="frame" x="359" y="521" width="50" height="50"/>
                                 <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="2gc-Vo-m0G">
-                                        <rect key="frame" x="2" y="2" width="20" height="20"/>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="UWt-Qb-j9h">
+                                        <rect key="frame" x="15" y="22" width="20" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="RHM-U2-SU7"/>
-                                    <constraint firstAttribute="width" constant="25" id="gp2-8V-1sU"/>
+                                    <constraint firstAttribute="width" constant="50" id="J4W-TD-vgi"/>
+                                    <constraint firstAttribute="height" constant="50" id="seH-kg-Fnz"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -200,15 +200,16 @@
                             <constraint firstItem="Wjn-8F-9ui" firstAttribute="top" secondItem="Vek-sS-aNa" secondAttribute="bottom" constant="42" id="CPh-Sr-zMq"/>
                             <constraint firstItem="IFe-ln-S9v" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="2" id="Cwg-re-ix4"/>
                             <constraint firstItem="VOF-gL-xud" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="I69-qk-WwN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tlJ-bY-r2v" secondAttribute="trailing" constant="5" id="KVp-i1-Jrm"/>
                             <constraint firstItem="VOF-gL-xud" firstAttribute="top" secondItem="dD0-H9-Vb0" secondAttribute="bottom" constant="50" id="LbN-2l-Ue3"/>
                             <constraint firstItem="Wjn-8F-9ui" firstAttribute="leading" secondItem="dD0-H9-Vb0" secondAttribute="leading" id="Lfg-1g-0nh"/>
                             <constraint firstItem="Vek-sS-aNa" firstAttribute="top" secondItem="VOF-gL-xud" secondAttribute="bottom" constant="50" id="N6j-Z9-2D0"/>
                             <constraint firstItem="IFe-ln-S9v" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="OFv-cO-iwc"/>
                             <constraint firstAttribute="bottom" secondItem="Wjn-8F-9ui" secondAttribute="bottom" constant="380" id="R8Q-vQ-CRc"/>
+                            <constraint firstItem="tlJ-bY-r2v" firstAttribute="top" secondItem="Wjn-8F-9ui" secondAttribute="bottom" constant="5" id="Zn1-Ps-sZd"/>
                             <constraint firstItem="dD0-H9-Vb0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="azR-Ri-6hA"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VOF-gL-xud" secondAttribute="trailing" id="dY4-28-hhw"/>
                             <constraint firstAttribute="trailing" secondItem="t0w-5c-S6g" secondAttribute="trailing" constant="10" id="g16-eb-fsa"/>
-                            <constraint firstItem="agr-Qs-pIg" firstAttribute="top" secondItem="Wjn-8F-9ui" secondAttribute="bottom" constant="5" id="goy-JF-DtQ"/>
                             <constraint firstItem="Vek-sS-aNa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="hdb-8j-gx7"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="t0w-5c-S6g" secondAttribute="bottom" constant="5" id="hwE-3b-Ftf"/>
                             <constraint firstItem="t0w-5c-S6g" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="ic5-VY-8As"/>
@@ -216,7 +217,6 @@
                             <constraint firstItem="dD0-H9-Vb0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="m0c-Zq-jvs"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Vek-sS-aNa" secondAttribute="trailing" constant="10" id="nBX-bv-J0H"/>
                             <constraint firstItem="dD0-H9-Vb0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="pTW-In-kut"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="agr-Qs-pIg" secondAttribute="trailing" constant="10" id="ro3-C2-KAD"/>
                             <constraint firstItem="Vek-sS-aNa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sL8-5H-e7O"/>
                             <constraint firstItem="t0w-5c-S6g" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="737" id="sX3-7A-W0x"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Vek-sS-aNa" secondAttribute="trailing" id="tfc-Uh-fse"/>
@@ -225,7 +225,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activityIndicator" destination="2gc-Vo-m0G" id="yJX-vV-ZzU"/>
+                        <outlet property="activityIndicator" destination="UWt-Qb-j9h" id="pvi-Tn-Zt7"/>
                         <outlet property="collectionViewForecast" destination="ed8-fz-3ZS" id="1XJ-M6-XrH"/>
                         <outlet property="collectionViewWeather" destination="MMy-ie-DgW" id="Vtr-vY-Ix5"/>
                         <outlet property="lblCityName" destination="VOF-gL-xud" id="4fC-b2-sO5"/>
@@ -233,9 +233,7 @@
                         <outlet property="lblWeatherDaysTitle" destination="bkw-zh-8bL" id="JY6-0u-xog"/>
                         <outlet property="lblWeatherDescription" destination="yu8-2U-JzU" id="Rk0-RV-fRd"/>
                         <outlet property="searchTextField" destination="dD0-H9-Vb0" id="YnX-4L-6GY"/>
-                        <outlet property="stackViewWeatherCells" destination="Wjn-8F-9ui" id="KpT-Dh-JQm"/>
-                        <outlet property="stackViewWeatherDays" destination="t0w-5c-S6g" id="QRl-tP-CfE"/>
-                        <outlet property="uiViewSpinner" destination="agr-Qs-pIg" id="v7e-kD-puc"/>
+                        <outlet property="uiViewSpinner" destination="tlJ-bY-r2v" id="kuR-8X-JBm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

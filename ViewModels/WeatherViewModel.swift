@@ -10,13 +10,15 @@ import Foundation
 
 struct WeatherViewModel {
     
-    var weatherCellViewModels = [CellViewModel]()
-    var dailyWeatherCellViewModel = [CellViewModel]()
-    var cityName: String
-    var weatherDescription: String
-    var temperature: String
-    var humidity: Double
+    var weatherCellViewModels: [CellViewModel] = []
+    var cityName: String?
+    var weatherDescription: String?
+    var temperature: String?
+    var humidity: Double?
     
+    init() {
+        
+    }
     
     
     
@@ -40,7 +42,6 @@ struct WeatherViewModel {
         })
         
         self.weatherCellViewModels = forecastCellViewModels
-        self.dailyWeatherCellViewModel = weatherCellViewModels
         self.cityName = weathermodel.name
         self.weatherDescription = weathermodel.weather.first!.description
         self.temperature = String(format: "%.0f°", weathermodel.main.temp)

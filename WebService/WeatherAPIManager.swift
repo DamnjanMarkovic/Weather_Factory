@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 
+
 struct WeatherAPIManager {
     
     private let apiManager: APIService
@@ -16,7 +17,8 @@ struct WeatherAPIManager {
         self.apiManager = apiManager
     }
     
-    func getWeather(endpoint: Endpoint, cityName: String) -> AnyPublisher<WeatherModel, Error> {
+
+    func getWeather(endpoint: Endpoint, cityName: String) -> AnyPublisher<WeatherModel, CustomError> {
 
         guard let url = URL(string: "\(endpoint.urlString)&q=\(cityName)")
             else { preconditionFailure("Bad URL") }
@@ -25,8 +27,8 @@ struct WeatherAPIManager {
         
         return apiManager.getData(for: urlRequest)
     }
-    
-    func getWeatherForecast(endpoint: Endpoint, cityName: String) -> AnyPublisher<ForecastModel, Error> {
+
+    func getWeatherForecast(endpoint: Endpoint, cityName: String) -> AnyPublisher<ForecastModel, CustomError> {
         
         guard let url = URL(string: "\(endpoint.urlString)&q=\(cityName)")
             else { preconditionFailure("Bad URL") }

@@ -8,44 +8,37 @@
 import UIKit
 import Combine
 
+
 protocol APIService {
-            
-    func getData<T: Decodable>(for urlRequest: URLRequest) -> AnyPublisher<T, Error>
+
+    func getData<T: Decodable>(for urlRequest: URLRequest) -> AnyPublisher<T, CustomError>
 }
 
+
+
  class APIManager : APIService {
-     
+
      private var subscribers = Set<AnyCancellable>()
      
-     
-     func getData<T>(for urlRequest: URLRequest) -> AnyPublisher<T, Error> where T : Decodable {
+
+     func getData<T>(for urlRequest: URLRequest) -> AnyPublisher<T, CustomError> where T : Decodable {
          
-                URLSession
-                    .shared
-                    .dataTaskPublisher(for: urlRequest)
-                    .tryMap{ $0.data }
-                    .decode(type: T.self, decoder: JSONDecoder())
-                    .eraseToAnyPublisher()
+            return URLSession.shared.dataTaskPublisher(for: urlRequest)
+         
+             .map(\.data)
+             .decode(type: T.self, decoder: JSONDecoder())
+             .mapError({ error in
+               switch error {
+               case is Swift.DecodingError:
+                 return .parsingError
+               case let urlError as URLError:
+                 return .urlError(error: urlError)
+               default:
+                   return .other(error: error)
+               }
+             })
+             .eraseToAnyPublisher()
      }
-     
-     
-     
-//     func getDataFromWeb<T>(for urlRequest: URLRequest) -> AnyPublisher<T, Error> where T : Decodable {
-//
-//            URLSession.shared
-//            .dataTaskPublisher(for: urlRequest)
-//            .tryMap { element -> Data in
-//                guard let httpResponse = element.response as? HTTPURLResponse,
-//                    httpResponse.statusCode == 200 else {
-//                        throw URLError(.badServerResponse)
-//                    }
-//
-//                return element.data
-//            }
-//            .decode(type: T.self, decoder: JSONDecoder())
-//            .eraseToAnyPublisher()
-//  }
-     
      
 }
      
