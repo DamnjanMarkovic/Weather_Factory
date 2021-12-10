@@ -8,6 +8,7 @@
 import Foundation
 
 public enum CustomError: Error {
+    
     case urlError(error: URLError)
     case parsingError
     case other(error: Error)

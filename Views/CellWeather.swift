@@ -20,22 +20,13 @@ class CellWeather: UICollectionViewCell {
     }
     
     
-    static func nib() -> UINib {
-        return UINib(nibName: "CellWeather", bundle: nil)
-    }
-    
-    func configure(with viewModel: CellViewModel) {
+    func configure(with viewModel: CellData) {
+        
         lblTime.text = viewModel.time
         lblTemp.text = "\(viewModel.temperature)"
-
         lblTime.textColor = .white
         lblTemp.textColor = .white
-        
-        
-            
         image.image = viewModel.image
-        
-        image.tintColor = UIColor.white
 
     }
 

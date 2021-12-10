@@ -22,23 +22,17 @@ class CellForecast: UICollectionViewCell {
     }
     
     
-    static func nib() -> UINib {
-        return UINib(nibName: "CellForecast", bundle: nil)
-    }
-    
-    func configure(with viewModel: CellViewModel) {
+    func configure(with viewModel: CellData) {
+        
         lblTime.text = viewModel.time
         lblTemp.text = "\(viewModel.temperature)"
-        lbldayInTheWeek.text = viewModel.dayInTheWeek
-        
+        lbldayInTheWeek.text = viewModel.dayInTheWeek        
         lblTime.textColor = .white
         lblTemp.textColor = .white
         lbldayInTheWeek.textColor = .white
         
-        
         image.image = viewModel.image
         
-        image.tintColor = UIColor.white
     }
 
 }

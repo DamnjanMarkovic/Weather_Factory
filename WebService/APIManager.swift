@@ -9,17 +9,8 @@ import UIKit
 import Combine
 
 
-protocol APIService {
-
-    func getData<T: Decodable>(for urlRequest: URLRequest) -> AnyPublisher<T, CustomError>
-}
-
-
-
  class APIManager : APIService {
 
-     private var subscribers = Set<AnyCancellable>()
-     
 
      func getData<T>(for urlRequest: URLRequest) -> AnyPublisher<T, CustomError> where T : Decodable {
          
@@ -38,6 +29,7 @@ protocol APIService {
                }
              })
              .eraseToAnyPublisher()
+         
      }
      
 }

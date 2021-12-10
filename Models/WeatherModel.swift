@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 struct WeatherModel: WeatherProtocol, Codable {
     var weather: [Weather]
     var main: Main
@@ -24,6 +22,7 @@ struct Weather: Codable {
     var id: Int
     var main: String
     var description: String
+    var icon: String
     
 }
 

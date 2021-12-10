@@ -21,20 +21,14 @@ struct CitiesAPIManager {
         
         let url = Bundle.main.url(forResource: "\(endpoint.urlString)", withExtension: "json")
         
-        let urlRequest = request(for: url!, method: .GET)
+        let urlRequest = NetworkHelpers.request(for: url!, method: .GET)
         
         return apiManager.getData(for: urlRequest)
         
     }
         
     
-    func request(for endpoint: URL, method: Method) -> URLRequest {
-   
-           var request = URLRequest(url: endpoint)
-           request.httpMethod = "\(method)"
-           request.allHTTPHeaderFields = ["Content-Type": "application/json"]
-           return request
-    }
+
     
 
 }
