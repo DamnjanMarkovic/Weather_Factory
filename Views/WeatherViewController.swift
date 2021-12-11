@@ -53,23 +53,30 @@ class WeatherViewController: UIViewController {
     
     private func SetBinding() {
         viewModel.viewData.bind { [weak self] viewData in
-            self?.lblCityName.text = viewData?.cityName
-            self?.lblCityName.textColor = UIColor.white
-            self?.lblTemp.text = "\(viewData?.temperature ?? "0°")"
-            self?.lblWeatherDescription.text = viewData?.weatherDescription
-            self?.renderTableViewdataSource(viewData?.cellsData ?? [])
+            guard let self = self else { return }
+            
+            self.lblCityName.text = viewData?.cityName
+            self.lblCityName.textColor = UIColor.white
+            self.lblTemp.text = "\(viewData?.temperature ?? "0°")"
+            self.lblWeatherDescription.text = viewData?.weatherDescription
+            self.renderTableViewdataSource(viewData?.cellsData ?? [])
         }
         viewModel.error.bind { [weak self] error in
-            self?.lblCityName.text = error
-            self?.lblCityName.textColor = UIColor.red
+            guard let self = self else { return }
+            
+            self.lblCityName.text = error
+            self.lblCityName.textColor = UIColor.red
 
         }
         viewModel.showSpinner.bind { [weak self] turnSpinner in
+            
+            guard let self = self else { return }
+            
             switch turnSpinner {
             case .ON:
-                self?.showSpinner()
+                self.showSpinner()
             case .OFF:
-                self?.hideSpinner()
+                self.hideSpinner()
             }
         }
     }

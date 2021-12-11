@@ -13,11 +13,10 @@ protocol WeatherProtocol {
 
 
 struct ForecastModel: WeatherProtocol, Codable {
-    var list: [WeatherByDays]
-    var city: City
+    var list: [WeatherByTime]
 }
 
-struct WeatherByDays: Codable {
+struct WeatherByTime: Codable {
 
     var main: Main
     var weather: [Weather]
@@ -25,12 +24,22 @@ struct WeatherByDays: Codable {
     
 }
 
-struct City: Codable {
-    var name: String
-    var country: String
-    var sunrise: TimeInterval
-    var sunset: TimeInterval
+struct Main: Codable {
+    var temp: Double
+    var humidity: Int
 }
+
+struct Weather: Codable {
+    var id: Int
+    var main: String
+    var description: String
+    var icon: String
+    
+}
+
+
+
+
 
 
 

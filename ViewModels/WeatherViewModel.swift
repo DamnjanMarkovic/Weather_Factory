@@ -33,11 +33,11 @@ final class WeatherViewModel {
         
         getCityNames()
 
-        guard let cityName = UserDefaults.standard.string(forKey: "CityName") else { return }
+
+        let cityName = UserDefaults.standard.string(forKey: "CityName") ?? "Belgrade"
         getTempForCity(cityName: cityName)
     }
     
-
 
     func getCityNames() {
         
@@ -47,20 +47,27 @@ final class WeatherViewModel {
             .sink(receiveCompletion: { [weak self] completion in
                      switch completion {
                      case .failure(let error):
-                         guard self != nil else { return } 
-                         self?.error.value = error.localizedDescription
+                         guard let self = self else { return }
+                         self.error.value = error.localizedDescription
                      case .finished: break
                      }
                  }, receiveValue: { [weak self] (cityNames) in
-                     self!.cityNames = cityNames.map({ (city: CityJSON) -> String in
+                     guard let self = self else { return }
+                     self.cityNames = cityNames.map({ (city: CityModel) -> String in
                          city.name.uppercased()
                  })
             })
             .store(in: &cancellables)
     }
     
+    
+    //Since calling two APIs is given as an assignement, two main models are present (WeatherModel and ForecastModel).
+    //It could have been done with only one model and one call considering all currently requested data could be fetched from WeatherForecast, but we do not know what will be demands if we extend the app.
+    //Having two diffent models enforce using Publishers.Zip (along with Combine).
 
     func getTempForCity(cityName: String) {
+        
+        showSpinner.value = TurnSpinner.ON
         
         //check if cityName special characters
         
@@ -78,12 +85,14 @@ final class WeatherViewModel {
                 .sink(receiveCompletion: { [weak self] completion in
                     switch completion {
                     case .failure(_):
-                        guard self != nil else { return }
-                        self?.error.value = "No Data Available"
+                        guard let self = self else { return }
+                        self.error.value = "No Data Available"
                     case .finished: break
                     }
                 }, receiveValue: { [weak self] weatherModelArrived, forecastModelArrived in
 
+                    guard let self = self else { return }
+                    
                     let timeZoneDifference = weatherModelArrived.timezone
                         
                     var cells = [CellData]()
@@ -92,14 +101,14 @@ final class WeatherViewModel {
                         let forecastCellViewModel = CellData(weatherByDay: element, timeZoneDifference: timeZoneDifference)
                         cells.append(forecastCellViewModel)
                     })
-                    self?.viewData.value?.cellsData = cells
-                    self?.viewData.value?.cityName = weatherModelArrived.name
-                    self?.viewData.value?.weatherDescription = weatherModelArrived.weather.first!.description
-                    self?.viewData.value?.temperature = String(format: "%.0f°", weatherModelArrived.main.temp)
-                    self?.viewData.value?.humidity = Double((weatherModelArrived.main.humidity))/100
+                    self.viewData.value?.cellsData = cells
+                    self.viewData.value?.cityName = weatherModelArrived.name
+                    self.viewData.value?.weatherDescription = forecastModelArrived.list.first?.weather.first!.description                    
+                    self.viewData.value?.temperature = String(format: "%.0f°", forecastModelArrived.list.first!.main.temp)
+                    self.viewData.value?.humidity = Double(((forecastModelArrived.list.first?.main.humidity)!))/100
                     
                     UserDefaults.standard.set(cityName, forKey: "CityName")
-                    self?.showSpinner.value = TurnSpinner.OFF
+                    self.showSpinner.value = TurnSpinner.OFF
                 })
                 .store(in: &cancellables)
         }

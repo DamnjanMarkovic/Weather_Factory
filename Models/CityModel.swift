@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CityJSON: Decodable {
+struct CityModel: Codable {
     
     var name: String
 

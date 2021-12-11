@@ -17,7 +17,7 @@ struct CitiesAPIManager {
     }
     
 
-    func getCityNamesFromJsonFile(endpoint: Endpoint) -> AnyPublisher<[CityJSON], CustomError> {
+    func getCityNamesFromJsonFile(endpoint: Endpoint) -> AnyPublisher<[CityModel], CustomError> {
         
         let url = Bundle.main.url(forResource: "\(endpoint.urlString)", withExtension: "json")
         
