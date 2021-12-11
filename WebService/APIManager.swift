@@ -11,7 +11,6 @@ import Combine
 
  class APIManager : APIService {
 
-
      func getData<T>(for urlRequest: URLRequest) -> AnyPublisher<T, CustomError> where T : Decodable {
          
             return URLSession.shared.dataTaskPublisher(for: urlRequest)

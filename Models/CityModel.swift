@@ -1,5 +1,5 @@
 //
-//  CityJson.swift
+//  CityModel.swift
 //  FactoryWeather
 //
 //  Created by Damnjan Markovic on 10.12.21..

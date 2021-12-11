@@ -7,6 +7,9 @@
 
 import Foundation
 
+
+//Helps establishing decoupled connection between ViewController and ViewModel.
+
 final class CustomListener<T> {
     
       typealias Listener = (T) -> Void

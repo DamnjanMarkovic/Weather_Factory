@@ -1,9 +1,10 @@
 //
-//  WeatherForecastModel.swift
+//  ForecastModel.swift
 //  FactoryWeather
 //
 //  Created by Damnjan Markovic on 4.12.21..
 //
+
 
 import Foundation
 

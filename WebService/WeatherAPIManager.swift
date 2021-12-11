@@ -1,5 +1,5 @@
 //
-//  WeatherService.swift
+//  WeatherAPIManager.swift
 //  FactoryWeather
 //
 //  Created by Damnjan Markovic on 6.12.21..

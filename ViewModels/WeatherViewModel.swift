@@ -1,5 +1,5 @@
 //
-//  WeatherCurrentViewModel.swift
+//  WeatherViewModel.swift
 //  FactoryWeather
 //
 //  Created by Damnjan Markovic on 3.12.21..
@@ -8,6 +8,8 @@
 import UIKit
 import Combine
 
+//WeatherViewModel will make code decoupled, easier to understand, more reusable and easier to test.
+//Also, two additional ViewModel are being used - ViewData and CellData.
     
 final class WeatherViewModel {
     
@@ -33,12 +35,14 @@ final class WeatherViewModel {
         
         getCityNames()
 
-
         let cityName = UserDefaults.standard.string(forKey: "CityName") ?? "Belgrade"
         getTempForCity(cityName: cityName)
     }
     
-
+    //In order to provide auto-suggestion, all cities are set in the JSON file. At the instantiating of the app,
+    //a list of CityNames is established. When weather is requested, auto-suggestion reads from the list.
+    //Combine is used to fetch data from locally saved json.
+    
     func getCityNames() {
         
         citiesApiManager.getCityNamesFromJsonFile(endpoint: .jsonLocalFileName)
@@ -63,7 +67,7 @@ final class WeatherViewModel {
     
     //Since calling two APIs is given as an assignement, two main models are present (WeatherModel and ForecastModel).
     //It could have been done with only one model and one call considering all currently requested data could be fetched from WeatherForecast, but we do not know what will be demands if we extend the app.
-    //Having two diffent models enforce using Publishers.Zip (along with Combine).
+    //Having two diffent models is set by using Publishers.Zip (along with Combine).
 
     func getTempForCity(cityName: String) {
         
@@ -98,8 +102,9 @@ final class WeatherViewModel {
                     var cells = [CellData]()
                     
                     forecastModelArrived.list.enumerated().forEach( { (index, element) in
-                        let forecastCellViewModel = CellData(weatherByDay: element, timeZoneDifference: timeZoneDifference)
-                        cells.append(forecastCellViewModel)
+                        var cellData = CellData()
+                        cellData.setCellData(weatherByDay: element, timeZoneDifference: timeZoneDifference)
+                        cells.append(cellData)
                     })
                     self.viewData.value?.cellsData = cells
                     self.viewData.value?.cityName = weatherModelArrived.name
@@ -117,6 +122,7 @@ final class WeatherViewModel {
         }
     }
     
+    //Check if special characters present
     func containsSpecialCharacters(string: String) -> Bool {
           
           do {
@@ -130,6 +136,8 @@ final class WeatherViewModel {
               return true
           }
     }
+    
+    //Autocomplete function
         
     func autoCompleteText( in textField: UITextField, using string: String, suggestionsArray: [String]) -> Bool {
             if !string.isEmpty,

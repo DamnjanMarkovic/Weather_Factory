@@ -1,5 +1,5 @@
 //
-//  CollectionCellViewModel.swift
+//  CellData.swift
 //  FactoryWeather
 //
 //  Created by Damnjan Markovic on 4.12.21..
@@ -10,14 +10,14 @@ import UIKit
 
 struct CellData {
     
-    var weatherModelId: Int = 1
-    var temperature: String = ""
-    var time: String = ""
-    var dayInTheWeek: String = ""
+    var weatherModelId = -1
+    var temperature = ""
+    var time = ""
+    var dayInTheWeek = ""
     var image: UIImage?
     
     
-    init(weatherByDay: WeatherByTime, timeZoneDifference: TimeInterval){
+    mutating func setCellData(weatherByDay: WeatherByTime, timeZoneDifference: TimeInterval){
 
         self.weatherModelId = weatherByDay.weather.first!.id
         self.temperature = String(format: "%.0f°", weatherByDay.main.temp)

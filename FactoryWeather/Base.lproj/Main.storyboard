@@ -59,7 +59,7 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="JiF-9F-tjj"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" red="0.96862745100000003" green="0.94509803920000002" blue="0.89019607840000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Wjn-8F-9ui">
@@ -109,7 +109,7 @@
                                         </cells>
                                     </collectionView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.010253991931676865" green="0.35740464925765991" blue="0.99214166402816772" alpha="0.9995117188" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="tintColor"/>
                                 <constraints>
                                     <constraint firstItem="yu8-2U-JzU" firstAttribute="leading" secondItem="Wjn-8F-9ui" secondAttribute="leading" id="59s-R9-aDr"/>
                                     <constraint firstAttribute="trailing" secondItem="yu8-2U-JzU" secondAttribute="trailing" id="CEc-c2-soP"/>
@@ -161,7 +161,7 @@
                                         </cells>
                                     </collectionView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.010253991931676865" green="0.35740464925765991" blue="0.99214166402816772" alpha="0.9995117188" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="tintColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="ed8-fz-3ZS" secondAttribute="trailing" id="4LL-y7-jds"/>
                                     <constraint firstAttribute="trailing" secondItem="bkw-zh-8bL" secondAttribute="trailing" id="9Vq-f0-3QP"/>
@@ -240,6 +240,8 @@
                         <outlet property="lblWeatherDaysTitle" destination="bkw-zh-8bL" id="JY6-0u-xog"/>
                         <outlet property="lblWeatherDescription" destination="yu8-2U-JzU" id="Rk0-RV-fRd"/>
                         <outlet property="searchTextField" destination="dD0-H9-Vb0" id="YnX-4L-6GY"/>
+                        <outlet property="stackForecast" destination="t0w-5c-S6g" id="97c-Rz-d9k"/>
+                        <outlet property="stackWeather" destination="Wjn-8F-9ui" id="Ipz-vi-aGK"/>
                         <outlet property="uiViewSpinner" destination="tlJ-bY-r2v" id="kuR-8X-JBm"/>
                     </connections>
                 </viewController>
@@ -257,6 +259,9 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tintColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>

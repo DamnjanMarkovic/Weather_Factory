@@ -1,5 +1,5 @@
 //
-//  WeatherVCDataSource.swift
+//  CustomDataSource.swift
 //  FactoryWeather
 //
 //  Created by Damnjan Markovic on 7.12.21..
@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+
+//CustomDataSource - makes ViewController cleaner.
 
 class CustomDataSource<CELL : UICollectionViewCell, T>: NSObject, UICollectionViewDataSource {
     

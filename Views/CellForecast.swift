@@ -1,5 +1,5 @@
 //
-//  WeatherCell.swift
+//  CellForecast.swift
 //  FactoryWeather
 //
 //  Created by Damnjan Markovic on 3.12.21..

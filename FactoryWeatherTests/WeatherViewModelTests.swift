@@ -1,5 +1,5 @@
 //
-//  FactoryWeatherTests.swift
+//  WeatherViewModelTests.swift
 //  FactoryWeatherTests
 //
 //  Created by Damnjan Markovic on 3.12.21..
@@ -24,13 +24,13 @@ class WeatherViewModelTests: XCTestCase {
     func testIfSpecialCharactersNotExist() {
         let guess = "testcharacters"
         let result = sutWeatherViewModel.containsSpecialCharacters(string: guess)
-        XCTAssertFalse(result, "Special character check is wrong.")
+        XCTAssertFalse(result)
     }
     
     func testIfSpecialCharactersExist() {
         let guess = "@|][testcharacters"
         let result = sutWeatherViewModel.containsSpecialCharacters(string: guess)
-        XCTAssertTrue(result, "Special characters check is wrong.")
+        XCTAssertTrue(result)
     }
     
     func testAutoCompleteTextFalse() {
@@ -41,7 +41,7 @@ class WeatherViewModelTests: XCTestCase {
         
         let result = sutWeatherViewModel.autoCompleteText(in: guessTextField, using: guessString, suggestionsArray: guessStringArray)
         
-        XCTAssertFalse(result, "Auto Complete wrong.")
+        XCTAssertFalse(result)
     }
     
     func testAutoCompleteTextTrue() {
@@ -52,7 +52,7 @@ class WeatherViewModelTests: XCTestCase {
         
         let result = sutWeatherViewModel.autoCompleteText(in: guessTextField, using: guessString, suggestionsArray: guessStringArray)
         
-        XCTAssertTrue(result, "Auto Complete wrong.")
+        XCTAssertTrue(result)
     }
 
 }

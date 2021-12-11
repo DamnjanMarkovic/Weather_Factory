@@ -1,5 +1,5 @@
 //
-//  WeatherView.swift
+//  WeatherViewController.swift
 //  FactoryWeather
 //
 //  Created by Damnjan Markovic on 3.12.21..
@@ -8,17 +8,22 @@
 import UIKit
 import Combine
 
+//
+
 
 class WeatherViewController: UIViewController {
 
 
+    @IBOutlet var stackWeather: UIStackView!
+    @IBOutlet var stackForecast: UIStackView!
     @IBOutlet var lblWeatherDescription: UILabel!
     @IBOutlet var lblWeatherDaysTitle: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet var lblCityName: UILabel!
     @IBOutlet var lblTemp: UILabel!
     
-    //Spinner
+//MARK: - Spinner
+
     private var spinnerShowing: Bool = false
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var uiViewSpinner: UIView! {
@@ -27,7 +32,7 @@ class WeatherViewController: UIViewController {
       }
     }
     
-    //CollectionViews
+//MARK: - CollectionViews
     private var dataSourceWeather:CustomDataSource<CellWeather, CellData>?
     private var dataSourceForecast:CustomDataSource<CellForecast, CellData>?
     @IBOutlet weak var collectionViewWeather: UICollectionView!
@@ -35,9 +40,11 @@ class WeatherViewController: UIViewController {
 
     private let viewModel = WeatherViewModel()
     
-    
+//MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        SetUI()
         
         SetDelegates()
         
@@ -45,12 +52,31 @@ class WeatherViewController: UIViewController {
 
     }
     
+//MARK: - SetUI
+    private func SetUI() {
+        stackWeather.layer.cornerRadius = 10
+        stackForecast.layer.cornerRadius = 10
+        
+        
+        let backgroundImage = UIImage(named: "background.png")
+        var imageView: UIImageView!
+        imageView = UIImageView(frame: view.bounds)
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = backgroundImage
+        imageView.center = view.center
+        view.addSubview(imageView)
+        self.view.sendSubviewToBack(imageView)
+    }
+    
+//MARK: - SetDelegates
     private func SetDelegates() {
         searchTextField.delegate = self
         collectionViewWeather.delegate = self
         collectionViewForecast.delegate = self
     }
     
+//MARK: - SetBinding
     private func SetBinding() {
         viewModel.viewData.bind { [weak self] viewData in
             guard let self = self else { return }
@@ -59,7 +85,7 @@ class WeatherViewController: UIViewController {
             self.lblCityName.textColor = UIColor.white
             self.lblTemp.text = "\(viewData?.temperature ?? "0°")"
             self.lblWeatherDescription.text = viewData?.weatherDescription
-            self.renderTableViewdataSource(viewData?.cellsData ?? [])
+            self.renderCollectionViewDataSource(viewData?.cellsData ?? [])
         }
         viewModel.error.bind { [weak self] error in
             guard let self = self else { return }
@@ -81,8 +107,7 @@ class WeatherViewController: UIViewController {
         }
     }
     
-
-    
+//MARK: - SpinnerFuncs
     private func showSpinner() {
         activityIndicator.startAnimating()
         uiViewSpinner.isHidden = false
@@ -95,8 +120,8 @@ class WeatherViewController: UIViewController {
         spinnerShowing = false
     }
     
-    
-    func renderTableViewdataSource(_ cellViewModels: [CellData]){
+//MARK: - CollectionViewCells Rendering
+    func renderCollectionViewDataSource(_ cellViewModels: [CellData]){
         
         if cellViewModels.count > 8 {
             

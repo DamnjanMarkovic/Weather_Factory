@@ -1,5 +1,5 @@
 //
-//  CellDataTests.swift
+//  ViewDataTests.swift
 //  FactoryWeatherTests
 //
 //  Created by Damnjan Markovic on 11.12.21..
@@ -8,18 +8,18 @@
 import XCTest
 @testable import FactoryWeather
 
-var sutCellData: ViewData!
+var sutViewData: ViewData!
 class ViewDataTests: XCTestCase {
 
     override func setUpWithError() throws {
       try super.setUpWithError()
 
-        sutCellData = ViewData()
+        sutViewData = ViewData()
         
     }
 
     override func tearDownWithError() throws {
-        sutCellData = nil
+        sutViewData = nil
         try super.tearDownWithError()
     }
     
@@ -48,13 +48,13 @@ class ViewDataTests: XCTestCase {
             cells.append(forecastCellViewModel)
         })
         
-        sutCellData.cellsData = cells
-        sutCellData.cityName = weatherModel.name
-        sutCellData.weatherDescription = "scattered clouds"
-        sutCellData.temperature = String(format: "%.0f°", main.temp)
-        sutCellData.humidity = Double(main.humidity)/100
+        sutViewData.cellsData = cells
+        sutViewData.cityName = weatherModel.name
+        sutViewData.weatherDescription = "scattered clouds"
+        sutViewData.temperature = String(format: "%.0f°", main.temp)
+        sutViewData.humidity = Double(main.humidity)/100
 
-        XCTAssertNotNil(sutCellData, "Model setting error")
+        XCTAssertNotNil(sutViewData, "Model setting error")
     }
 
 
