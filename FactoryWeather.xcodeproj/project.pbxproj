@@ -36,6 +36,7 @@
 		6666CB58275CB61800566B11 /* CellWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6666CB56275CB61800566B11 /* CellWeather.swift */; };
 		6666CB59275CB61800566B11 /* CellWeather.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6666CB57275CB61800566B11 /* CellWeather.xib */; };
 		66768E302764B567006B459D /* ViewDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66768E2F2764B567006B459D /* ViewDataTests.swift */; };
+		6683883927655B240094EAF6 /* Zadatak iOS.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6683883827655B240094EAF6 /* Zadatak iOS.pdf */; };
 		66B232782762A50E005DF6F3 /* TurnSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B232772762A50E005DF6F3 /* TurnSpinner.swift */; };
 		66B2327A2762A82C005DF6F3 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B232792762A82C005DF6F3 /* CustomError.swift */; };
 		66F78A7D275FC5E300D0E7B6 /* CustomDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F78A7C275FC5E300D0E7B6 /* CustomDataSource.swift */; };
@@ -84,6 +85,7 @@
 		6666CB56275CB61800566B11 /* CellWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellWeather.swift; sourceTree = "<group>"; };
 		6666CB57275CB61800566B11 /* CellWeather.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CellWeather.xib; sourceTree = "<group>"; };
 		66768E2F2764B567006B459D /* ViewDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDataTests.swift; sourceTree = "<group>"; };
+		6683883827655B240094EAF6 /* Zadatak iOS.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Zadatak iOS.pdf"; sourceTree = "<group>"; };
 		66B232772762A50E005DF6F3 /* TurnSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnSpinner.swift; sourceTree = "<group>"; };
 		66B232792762A82C005DF6F3 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		66F78A7C275FC5E300D0E7B6 /* CustomDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDataSource.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 		663C047E275AA33E00972A67 = {
 			isa = PBXGroup;
 			children = (
+				6683883827655B240094EAF6 /* Zadatak iOS.pdf */,
 				663C04C0275AA38E00972A67 /* Models */,
 				663C04BF275AA38300972A67 /* ViewModels */,
 				663C04BE275AA37700972A67 /* WebService */,
@@ -318,6 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66484DFC2763BB8200914305 /* cities.json in Resources */,
+				6683883927655B240094EAF6 /* Zadatak iOS.pdf in Resources */,
 				663C04C6275AA56400972A67 /* CellForecast.xib in Resources */,
 				663C0497275AA33F00972A67 /* LaunchScreen.storyboard in Resources */,
 				6666CB59275CB61800566B11 /* CellWeather.xib in Resources */,
