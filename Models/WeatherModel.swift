@@ -8,6 +8,7 @@
 import Foundation
 
 struct WeatherModel: WeatherProtocol, Codable {
+    
     var name: String
     var timezone: TimeInterval
 }

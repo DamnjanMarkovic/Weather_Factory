@@ -13,9 +13,7 @@ import Foundation
 final class CustomListener<T> {
     
       typealias Listener = (T) -> Void
-        
       var listener: Listener?
-        
       var value: T {
             didSet {
                 listener?(value)

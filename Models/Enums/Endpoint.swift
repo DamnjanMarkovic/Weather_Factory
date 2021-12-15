@@ -8,26 +8,23 @@
 import Foundation
 
 enum Endpoint {
+    
     case weather
     case forecast
     case jsonLocalFileName
     
     var urlString: String {
-        
         switch self {
-            
             case .weather:
-                return Constants.WEATHER_URL_BASE_STRING
+                return Constants.URLs.WEATHER_BASE
             case .forecast:
-                return Constants.WEATHER_FORECAST_URL_BASE_STRING
-            
+                return Constants.URLs.FORECAST_BASE
             case .jsonLocalFileName:
-                return Constants.JSON_LOCAL_FILE_NAME
+                return Constants.URLs.CITIES_FILE_NAME
         }
     }
 }
 
 enum Method: String {
-        case GET
-    
+    case GET    
 }

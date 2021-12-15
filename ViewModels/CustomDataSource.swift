@@ -14,9 +14,7 @@ import UIKit
 class CustomDataSource<CELL : UICollectionViewCell, T>: NSObject, UICollectionViewDataSource {
     
     typealias CellConfigurator = (T, UICollectionViewCell) -> Void
-
     var models: [T]
-
     private let reuseIdentifier: String
     var configureCell : (CELL, T) -> () = {_,_ in }
     
@@ -25,31 +23,22 @@ class CustomDataSource<CELL : UICollectionViewCell, T>: NSObject, UICollectionVi
         self.models = models
         self.reuseIdentifier = reuseIdentifier
         self.configureCell = configureCell
-        
         collectionView.register(UINib(nibName: reuseIdentifier, bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
-
     }
-
-    
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return models.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let model = models[indexPath.row]
         let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: reuseIdentifier, for: indexPath) as! CELL                
-
+                withReuseIdentifier: reuseIdentifier, for: indexPath) as! CELL
         self.configureCell(cell, model)
-
-        return cell
-        
+        return cell        
     }
 }

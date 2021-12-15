@@ -11,6 +11,5 @@ import CoreVideo
 enum TurnSpinner {
     
     case ON
-    case OFF
-    
+    case OFF    
 }

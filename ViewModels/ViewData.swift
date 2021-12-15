@@ -13,10 +13,9 @@ struct ViewData {
     var cellsData: [CellData] = []
     var cityName: String = "Loading..."
     var weatherDescription: String?
-    var temperature: String = ""
+    var temperature: String?
     var humidity: Double?
     
     init() {
     }
-    
 }

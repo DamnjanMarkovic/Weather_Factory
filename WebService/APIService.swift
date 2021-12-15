@@ -10,6 +10,6 @@ import Combine
 
 
 protocol APIService {
-
+    
     func getData<T: Decodable>(for urlRequest: URLRequest) -> AnyPublisher<T, CustomError>
 }

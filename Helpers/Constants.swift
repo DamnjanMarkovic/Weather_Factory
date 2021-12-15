@@ -10,15 +10,12 @@ import UIKit
 
 struct Constants {
     
-    
     //got this key online :)
     static let API_KEY = "4e63f48bb2d090d7fb7d80f6447ace6a"
     
-    static let WEATHER_URL_BASE_STRING =  "https://api.openweathermap.org/data/2.5/weather"
-    
-    static let WEATHER_FORECAST_URL_BASE_STRING =  "https://api.openweathermap.org/data/2.5/forecast"
-    
-    static let JSON_LOCAL_FILE_NAME = "cities"
-    
-
+    struct URLs {
+        static let WEATHER_BASE =  "https://api.openweathermap.org/data/2.5/weather"
+        static let FORECAST_BASE =  "https://api.openweathermap.org/data/2.5/forecast"
+        static let CITIES_FILE_NAME = "cities"
+    }
 }

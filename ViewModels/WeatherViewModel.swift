@@ -13,22 +13,18 @@ import Combine
     
 final class WeatherViewModel {
     
-    
     private let apiManager = APIManager()
     private var weatherApiManager: WeatherAPIManager!
     private var citiesApiManager: CitiesAPIManager!
     var cityNames = [String]()
-    
     private var cancellables = Set<AnyCancellable>()
-    
-    //Observable properties
+
+//MARK: - Observable properties
     let viewData: CustomListener<ViewData?> = CustomListener(ViewData())
     let error = CustomListener("")
     let showSpinner = CustomListener(TurnSpinner.OFF)
     
-    
     init() {
-        
         showSpinner.value = TurnSpinner.ON
         weatherApiManager = WeatherAPIManager(apiManager: apiManager)
         citiesApiManager = CitiesAPIManager(apiManager: apiManager)
@@ -44,7 +40,6 @@ final class WeatherViewModel {
     //Combine is used to fetch data from locally saved json.
     
     func getCityNames() {
-        
         citiesApiManager.getCityNamesFromJsonFile(endpoint: .jsonLocalFileName)
             .eraseToAnyPublisher()
             .receive(on: DispatchQueue.main)
@@ -64,41 +59,33 @@ final class WeatherViewModel {
             .store(in: &cancellables)
     }
     
-    
-    //Since calling two APIs is given as an assignement, two main models are present (WeatherModel and ForecastModel).
+    //Since calling two APIs is set by the received task, two main models are present (WeatherModel and ForecastModel).
     //It could have been done with only one model and one call considering all currently requested data could be fetched from WeatherForecast, but we do not know what will be demands if we extend the app.
     //Having two diffent models is set by using Publishers.Zip (along with Combine).
 
     func getTempForCity(cityName: String) {
-        
         showSpinner.value = TurnSpinner.ON
         
         //check if cityName special characters
-        
         let cityNameTrimmed = cityName.replacingOccurrences(of: " ", with: "")
-        
         if !containsSpecialCharacters(string: cityNameTrimmed)
         {
             Publishers.Zip(weatherApiManager.getWeather(endpoint: .weather, cityName: cityNameTrimmed),
                            weatherApiManager.getWeatherForecast(endpoint: .forecast, cityName: cityNameTrimmed))
                 .eraseToAnyPublisher()
                 .receive(on: DispatchQueue.main)
-                .mapError { error -> CustomError in
-                    return error
-                        }
+                .mapError { error -> CustomError in return error }
                 .sink(receiveCompletion: { [weak self] completion in
                     switch completion {
                     case .failure(_):
                         guard let self = self else { return }
                         self.error.value = "No Data Available"
-                    case .finished: break
+                    case .finished:
+                        break
                     }
                 }, receiveValue: { [weak self] weatherModelArrived, forecastModelArrived in
-
                     guard let self = self else { return }
-                    
                     let timeZoneDifference = weatherModelArrived.timezone
-                        
                     var cells = [CellData]()
                     
                     forecastModelArrived.list.enumerated().forEach( { (index, element) in
@@ -108,10 +95,11 @@ final class WeatherViewModel {
                     })
                     self.viewData.value?.cellsData = cells
                     self.viewData.value?.cityName = weatherModelArrived.name
-                    self.viewData.value?.weatherDescription = forecastModelArrived.list.first?.weather.first!.description                    
-                    self.viewData.value?.temperature = String(format: "%.0f°", forecastModelArrived.list.first!.main.temp)
-                    self.viewData.value?.humidity = Double(((forecastModelArrived.list.first?.main.humidity)!))/100
-                    
+                    self.viewData.value?.weatherDescription = forecastModelArrived.list.first?.weather.first?.description
+                    self.viewData.value?.temperature =
+                        String(format: "%.0f°", forecastModelArrived.list.first!.main.temp)
+                    self.viewData.value?.humidity =
+                        Double(forecastModelArrived.list.first!.main.humidity)/100
                     UserDefaults.standard.set(cityName, forKey: "CityName")
                     self.showSpinner.value = TurnSpinner.OFF
                 })
@@ -122,9 +110,8 @@ final class WeatherViewModel {
         }
     }
     
-    //Check if special characters present
+//MARK: - Check if special characters present
     func containsSpecialCharacters(string: String) -> Bool {
-          
           do {
               let regex = try NSRegularExpression(pattern: "[^a-z0-9 ]", options: .caseInsensitive)
               if let _ = regex.firstMatch(in: string, options: [], range: NSMakeRange(0, string.count)) {
@@ -132,13 +119,13 @@ final class WeatherViewModel {
               } else {
                   return false
               }
-          } catch {
+          }
+          catch {
               return true
           }
     }
     
-    //Autocomplete function
-        
+//MARK: - Autocomplete function
     func autoCompleteText( in textField: UITextField, using string: String, suggestionsArray: [String]) -> Bool {
             if !string.isEmpty,
                 let selectedTextRange = textField.selectedTextRange,
@@ -158,6 +145,5 @@ final class WeatherViewModel {
                 }
             }
         return false
-    }
-    
+    }    
 }

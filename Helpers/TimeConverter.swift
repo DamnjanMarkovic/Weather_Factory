@@ -9,7 +9,6 @@ import Foundation
 
 struct TimeConverter {
     
-    
     static func getTimeFromMS(time: Int) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(time))
         let formatter = DateFormatter()
@@ -25,8 +24,6 @@ struct TimeConverter {
         formatter.dateFormat = "HH:mm, d.MM"
         formatter.dateFormat = "EE"
         return formatter.string(from: date)
-        
-    }
-        
+    }        
 }
 

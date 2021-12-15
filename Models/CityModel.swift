@@ -10,5 +10,4 @@ import Foundation
 struct CityModel: Codable {
     
     var name: String
-
 }

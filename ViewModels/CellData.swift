@@ -16,17 +16,11 @@ struct CellData {
     var dayInTheWeek = ""
     var image: UIImage?
     
-    
     mutating func setCellData(weatherByDay: WeatherByTime, timeZoneDifference: TimeInterval){
-
         self.weatherModelId = weatherByDay.weather.first!.id
         self.temperature = String(format: "%.0f°", weatherByDay.main.temp)
         self.time = "\(TimeConverter.getTimeFromMS(time: Int(weatherByDay.dt-timeZoneDifference)))"
         self.dayInTheWeek = TimeConverter.getDayNameFromMS(time: Int(weatherByDay.dt-timeZoneDifference))
         self.image = UIImage(named: weatherByDay.weather.first?.icon ?? "unknown")
-
     }
-
-
-    
 }
